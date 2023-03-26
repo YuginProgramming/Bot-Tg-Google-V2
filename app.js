@@ -6,7 +6,7 @@ const chatIds = ['-1001938112685', '-785368621']; // id двох тестови�
 import { getSpreadsheetData } from "./filedata.js";
 
 const spreadsheetId = "1MXhyHvDEkDBSwiPLP-ZeZSppNKY0rPpwM5o_ZPGaRpY";
-const range = "Лист1";
+const range = "post";
 
 const scheduleMessages = async () => {
     const data = await getSpreadsheetData(spreadsheetId, range);
