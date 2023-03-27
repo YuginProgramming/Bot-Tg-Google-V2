@@ -1,5 +1,4 @@
 import TelegramBot from 'node-telegram-bot-api';
-//const token = '5644097179:AAEQ0mcz6v36Y7FmCTiMm8E-_OI-Degc_dQ'; // YourProduct: t.me/Yourproduct_bot
 import dotenv from 'dotenv';
 dotenv.config();
 const token = process.env.TOKEN;
