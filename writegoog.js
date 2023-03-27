@@ -20,5 +20,4 @@ export const writeSpreadsheetData = async (spreadsheetId, range, data) => {
   const response = await sheets.spreadsheets.values.update(request);
   return response.data;
 };
-
 // writeSpreadsheetData(spreadsheetId, range, data);
