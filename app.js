@@ -3,11 +3,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
+export default bot;
 
-const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал
+import { anketa, anketaListiner } from './anketa.js';
+anketa();
+anketaListiner();
+
+const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',
 
 import { getSpreadsheetData } from "./filedata.js";
-const spreadsheetId = "1MXhyHvDEkDBSwiPLP-ZeZSppNKY0rPpwM5o_ZPGaRpY";
+const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
 const range = "post";
 
 const scheduleMessages = async () => {
@@ -16,8 +21,8 @@ const scheduleMessages = async () => {
   
     // Schedule messages
     const schedule = [
-      { hour: 9, minute: 24, text: data },
-      { hour: 9, minute: 25, text: data },
+      { hour: 15, minute: 10, text: data },
+      { hour: 15, minute: 11, text: data },
     ];
   
     schedule.forEach(({ hour, minute, text }) => {
@@ -33,18 +38,3 @@ const scheduleMessages = async () => {
     });
   };
   scheduleMessages();
-//BUTTON
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-    
-  // Send a message with a button
-  if (msg.text === '/start') {
-    bot.sendMessage(chatId, 'Click the button to get a reply', {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: 'Click me!', url: 'https://t.me/PERIZHOK_test_bot',  }]
-        ]
-      }
-    });
-  }
-});
