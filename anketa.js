@@ -1,15 +1,16 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
-
 let customerPhone;
 let customerName;
 
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
 const range = 'post!F3';
-const data = [['0674600500 імя Yevgen']];
+//const data = [['0674600500 імя Yevgen']];
+const data = [];
 
 const sendToBase = (phone, name) => {
   //console.log(`Data sended ${phone} , ${name}`);
+  data.push([`${phone} ${name}`]);
   writeSpreadsheetData(spreadsheetId, range, data);
 };
 
