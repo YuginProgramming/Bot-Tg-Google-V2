@@ -21,8 +21,9 @@ const scheduleMessages = async () => {
   
     // Schedule messages
     const schedule = [
-      { hour: 15, minute: 10, text: data },
-      { hour: 15, minute: 11, text: data },
+      { hour: 16, minute: 30, text: data },
+      { hour: 16, minute: 31, text: data },
+      
     ];
   
     schedule.forEach(({ hour, minute, text }) => {
