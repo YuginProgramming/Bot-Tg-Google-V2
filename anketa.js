@@ -4,7 +4,7 @@ let customerPhone;
 let customerName;
 
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
-const range = 'post!F3';
+const range = 'post!N1';
 //const data = [['0674600500 імя Yevgen']];
 const data = [];
 

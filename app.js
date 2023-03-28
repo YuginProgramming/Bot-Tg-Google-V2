@@ -9,33 +9,37 @@ import { anketa, anketaListiner } from './anketa.js';
 anketa();
 anketaListiner();
 
-const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',
+//const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',
 
 import { getSpreadsheetData } from "./filedata.js";
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
 const range = "post";
 
-const scheduleMessages = async () => {
-    const data = await getSpreadsheetData(spreadsheetId, range);
+// const scheduleMessages = async () => {
+//     const data = await getSpreadsheetData(spreadsheetId, range);
+// };
     //console.log(data);
   
-    // Schedule messages
-    const schedule = [
-      { hour: 16, minute: 30, text: data },
-      { hour: 16, minute: 31, text: data },
-      
-    ];
-  
-    schedule.forEach(({ hour, minute, text }) => {
-        const job = setInterval(() => {
-          const now = new Date();
-          if (now.getHours() === hour && now.getMinutes() === minute && now.getDay() !== 7) {
-            chatIds.forEach((chatId) => {
-              const messageText = text.values.map((row) => row.join(' ')).join('\n');
-              bot.sendMessage(chatId, messageText);
-            });
-          }
-        }, 40000); // Check every minute
-    });
-  };
-  scheduleMessages();
+// ЭТО РАБОЧИЙ КОД ОТПРАВКИ ЦИФРЫ В ТЕЛЕГРАМ И ОТПРАВКИ СТРОКИ В ГРУППУ
+let chatId = '-1001783798562';
+bot.on('message', async (message) => {
+  // Check if message contains text
+  if (message.text) {
+    // Parse message text as a number
+    const rowNumber = parseInt(message.text);
+    // Call getRowData function with rowNumber
+    await getRowData(spreadsheetId, 'post', rowNumber);
+  }
+});
+const sendRowToTelegram = async (rowData) => {
+  const message = rowData.join("\n");
+  await bot.sendMessage(chatId, message);
+};
+
+const getRowData = async (spreadsheetId, sheetName, rowNumber) => {
+  const range = `${sheetName}!A${rowNumber}:I${rowNumber}`;
+  const data = await getSpreadsheetData(spreadsheetId, range);
+  if (data.values && data.values.length > 0) {
+    await sendRowToTelegram(data.values);
+  }
+};
