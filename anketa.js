@@ -5,7 +5,7 @@ let customerPhone;
 let customerName;
 
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
-const range = 'post!N1';
+const range = 'post!N5';
 //const data = [['0674600500 імя Yevgen']];
 const data = [];
 
@@ -84,7 +84,7 @@ bot.on('message', async (msg) => {
   } else {
     bot.sendMessage(chatId, 'стоїть бронь');
   }
-  //==========================  
+  
   } else if (msg.contact) {
     customerPhone = msg.contact.phone_number;
     customerName = msg.contact.first_name;
