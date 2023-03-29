@@ -1,8 +1,4 @@
-import bot from "./app.js";
-import { getClient, getSheetsInstance } from "./google.js";
-import { google } from "googleapis";
 import { getSpreadsheetData } from "./filedata.js";
-
 
 const getArrayFromColumn = async (spreadsheetId, sheetName, columnName) => {
     const range = `${sheetName}!${columnName}:${columnName}`;
@@ -12,7 +8,7 @@ const getArrayFromColumn = async (spreadsheetId, sheetName, columnName) => {
     }
     return [];
 };
-const getSpreadsheetRow = async (spreadsheetId, sheetName, triggerColumn) => {
+const crawler = async (spreadsheetId, sheetName, triggerColumn) => {
   // Get array of trigger values in column
   const triggerArray = await getArrayFromColumn(spreadsheetId, sheetName, triggerColumn);
         
@@ -21,13 +17,15 @@ const getSpreadsheetRow = async (spreadsheetId, sheetName, triggerColumn) => {
     .map((value, index) => value === "reserve" ? index + 1 : null)
     .filter(value => value !== null);    
     if (rowNumbers.length > 0) {
-      console.log('sold');
-      //bot.sendMessage(chatId, 'Sold!');
+      return false;
+    } else {
+      return true;
     }
-  };
+    }
+  
 
 //getSpreadsheetRow(spreadsheetId, "post", "J");
 
 export {
-  getSpreadsheetRow,
+  crawler,
 }

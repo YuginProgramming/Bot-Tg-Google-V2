@@ -9,7 +9,7 @@ export default bot;
 import { anketa, anketaListiner } from './anketa.js';
 anketa();
 anketaListiner();
-import { getSpreadsheetRow } from './crawler.js'
+import { crawler } from './crawler.js'
 
 //const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',
 
@@ -29,7 +29,7 @@ const chatIdTest = '-1001938112685';
 bot.on('message', async (message) => {
   try {
     if (message.text === 'check reserve') {
-      getSpreadsheetRow(spreadsheetId, "post", "J");
+      crawler(spreadsheetId, "post", "J");
     } else {
     // Check if message contains a valid number
     const rowNumber = parseInt(message.text);

@@ -1,5 +1,6 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
+import { crawler } from './crawler.js'
 let customerPhone;
 let customerName;
 
@@ -63,17 +64,27 @@ const anketa = () => {
 });
 };
 
-const anketaListiner = () => {
-bot.on('message', (msg) => {
+//getSpreadsheetRow
+const anketaListiner = async() => {
+bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const messageText = msg.text;
+  
   if (messageText === 'Зробити замовлення') {
+    // check reserve
+    const reservTemp = await crawler(spreadsheetId, "post", "J");;
+    if (reservTemp === true) {
+
     bot.sendMessage(chatId, phrases.contactRequest, {
       reply_markup: {
         keyboard: keyboards.contactRequest,
         resize_keyboard: true,
       },
     });
+  } else {
+    bot.sendMessage(chatId, 'стоїть бронь');
+  }
+  //==========================  
   } else if (msg.contact) {
     customerPhone = msg.contact.phone_number;
     customerName = msg.contact.first_name;
