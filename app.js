@@ -21,19 +21,36 @@ const range = "post";
     //console.log(data);
   
 // ЭТО РАБОЧИЙ КОД ОТПРАВКИ ЦИФРЫ В ТЕЛЕГРАМ И ОТПРАВКИ СТРОКИ В ГРУППУ
-let chatId = '-1001783798562';
+const chatId = '-1001783798562';
+const chatIdTest = '-1001938112685';
 bot.on('message', async (message) => {
-  // Check if message contains text
-  if (message.text) {
-    // Parse message text as a number
+  try {
+    // Check if message contains a valid number
     const rowNumber = parseInt(message.text);
+    if (isNaN(rowNumber)) {
+      throw new Error('Invalid row number');
+    }
     // Call getRowData function with rowNumber
     await getRowData(spreadsheetId, 'post', rowNumber);
+  } catch (error) {
+    if (error.message === 'Invalid row number') {
+      await bot.sendMessage(chatIdTest, 'Sorry, please enter a valid row number');
+    } else {
+      //console.error(error);
+      await bot.sendMessage(chatIdTest, 'Sorry, there was an error processing your request');
+    }
   }
 });
+
+
 const sendRowToTelegram = async (rowData) => {
-  const message = rowData.join("\n");
-  await bot.sendMessage(chatId, message);
+  try {
+    const message = rowData.join('\n');
+    await bot.sendMessage(chatId, message);
+  } catch (error) {
+    console.error(error);
+    await bot.sendMessage(chatId, 'Sorry, there was an error sending the message');
+  }
 };
 
 const getRowData = async (spreadsheetId, sheetName, rowNumber) => {

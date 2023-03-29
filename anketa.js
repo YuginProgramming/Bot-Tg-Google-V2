@@ -77,7 +77,7 @@ bot.on('message', (msg) => {
   } else if (msg.contact) {
     customerPhone = msg.contact.phone_number;
     customerName = msg.contact.first_name;
-    console.log(customerPhone)
+    //console.log(customerPhone)
     bot.sendMessage(chatId, `Ваш номер телефону: ${customerPhone}. Ваше імя ${customerName}. Дані вірні?`, 
       {
         reply_markup: {
