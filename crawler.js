@@ -43,7 +43,7 @@ const crawlerRaw = async (spreadsheetId, sheetName, triggerColumn) => {
   // Print row data to console
   rowDataArray.forEach(rowData => {
     if (rowData.values && rowData.values.length > 0) {
-      console.log(rowData.values[0].join("\t"));
+      //console.log(rowData.values[0].join("\t"));
     }
   });
 };
