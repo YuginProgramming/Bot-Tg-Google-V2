@@ -13,20 +13,6 @@ const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
 //const data = [['0674600500 імя Yevgen']];
 const data = [];
 
-// const sendToBase = async (phone, name, status) => {
-//   const rowNumber = await findStatusRaw('reserve');
-//   const sheetName = 'post';
-//   if (rowNumber) {
-//     const range = `${sheetName}!O${rowNumber}`;
-//     const data = [[`${phone} ${name}`]];
-//     await writeSpreadsheetData(spreadsheetId, range, data);
-//     console.log(`Using range ${range} for cell with reserve status`);
-//     console.log(`Data sended ${phone} , ${name}`);
-//   } else {
-//     console.log(`Status "${status}" not found in spreadsheet`);
-//   }
-// };
-
 const phoneRegex = /^\d{10,12}$/;
 
 const phrases = {
@@ -85,10 +71,11 @@ bot.on('message', async (msg) => {
   if (messageText === 'Зробити замовлення') {
     // check reserve
     const reservTemp = await crawler(spreadsheetId, "post", "N");
-    //додаю перевірку на crawlerStatusNew
-    //const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
     
-    if (reservTemp === true) {
+    const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
+    if (statusNew === true) {
+      bot.sendMessage(chatId, 'є замовлення від іншого користувача');
+    } else if (reservTemp === true) {
       //додаю окремим іфом ЧИ В ТОЙ САМИЙ ІФ запис статусу reserve
       sendToBaseStatusReserve();
       bot.sendMessage(chatId, phrases.contactRequest, {
@@ -97,6 +84,7 @@ bot.on('message', async (msg) => {
         resize_keyboard: true,
       },
     });
+    
   } else {
     bot.sendMessage(chatId, 'стоїть бронь');
   }
