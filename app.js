@@ -9,6 +9,11 @@ export default bot;
 import { anketa, anketaListiner } from './anketa.js';
 anketa();
 anketaListiner();
+
+import { findStatusRaw, findStatusRawCell } from './getStatus.js'
+// findStatusRaw('reserve');
+// findStatusRawCell('reserve');
+
 import { crawler, crawlerRaw } from './crawler.js'
 
 //const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',

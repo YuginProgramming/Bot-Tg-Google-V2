@@ -1,19 +1,31 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
+import { sendToBase, sendToBaseStatusDone } from './writegoog.js'
 import { crawler } from './crawler.js'
+import { findStatusRaw } from "./getStatus.js";
+
 let customerPhone;
 let customerName;
 
+
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
-const range = 'post!N5';
+//const range = 'post!N5';
 //const data = [['0674600500 імя Yevgen']];
 const data = [];
 
-const sendToBase = (phone, name) => {
-  //console.log(`Data sended ${phone} , ${name}`);
-  data.push([`${phone} ${name}`]);
-  writeSpreadsheetData(spreadsheetId, range, data);
-};
+// const sendToBase = async (phone, name, status) => {
+//   const rowNumber = await findStatusRaw('reserve');
+//   const sheetName = 'post';
+//   if (rowNumber) {
+//     const range = `${sheetName}!O${rowNumber}`;
+//     const data = [[`${phone} ${name}`]];
+//     await writeSpreadsheetData(spreadsheetId, range, data);
+//     console.log(`Using range ${range} for cell with reserve status`);
+//     console.log(`Data sended ${phone} , ${name}`);
+//   } else {
+//     console.log(`Status "${status}" not found in spreadsheet`);
+//   }
+// };
 
 const phoneRegex = /^\d{10,12}$/;
 
@@ -99,6 +111,7 @@ bot.on('message', async (msg) => {
       });
   } else if(messageText === 'Так, Оформити замовлення') {
     sendToBase(customerPhone, customerName);
+    sendToBaseStatusDone();
     bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
   } else if (messageText === 'Почати спочатку') {
     bot.sendMessage(chatId, '/start');

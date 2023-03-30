@@ -50,5 +50,7 @@ const crawlerRaw = async (spreadsheetId, sheetName, triggerColumn) => {
 
 export {
   crawler,
-  crawlerRaw
+  crawlerRaw,
+  getArrayFromColumn,
+  getSpreadsheetData
 }
