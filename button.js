@@ -1,7 +1,7 @@
 
 //=======================
 const channelId = '-1001783798562';
-    const lastMessageId = /* Set this to the ID of the previous message */;
+    //const lastMessageId = /* Set this to the ID of the previous message */;
     const opts = {
       chat_id: channelId,
       message_id: lastMessageId,

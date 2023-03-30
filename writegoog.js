@@ -66,10 +66,25 @@ const sendToBaseStatusReserve = async (phone, name, status) => {
   }
 };
 
+const sendToBaseMessageId = async (id) => {
+  const rowNumber = '2';
+  const sheetName = 'post';
+  if (rowNumber) {
+    const range = `${sheetName}!M${rowNumber}`;
+    const data = [[id]];
+    await writeSpreadsheetData(spreadsheetId, range, data);
+    //console.log(`Using range ${range} for cell with reserve status`);
+    //console.log(`Data sended ${phone} , ${name}`);
+  } else {
+    console.log(`Status "${id}" not found in spreadsheet`);
+  }
+};
+
 export {
   sendToBase,
   sendToBaseStatusDone,
-  sendToBaseStatusReserve
+  sendToBaseStatusReserve,
+  sendToBaseMessageId
 }
 
 // writeSpreadsheetData(spreadsheetId, range, data);

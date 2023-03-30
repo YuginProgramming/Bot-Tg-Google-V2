@@ -15,6 +15,8 @@ import { findStatusRaw, findStatusRawCell } from './getStatus.js'
 // findStatusRawCell('reserve');
 
 import { crawler, crawlerRaw } from './crawler.js'
+import { sendToBaseMessageId } from './writegoog.js'
+
 
 //const chatIds = ['-1001938112685', '-785368621', '-1001783798562']; // id двох тестових + третій тестовий канал + 4ий це нова група supergrop,'-100944130193',
 
@@ -56,13 +58,16 @@ bot.on('message', async (message) => {
 
 const sendRowToTelegram = async (rowData) => {
   try {
-    const message = rowData.join('\n');
+    const message = rowData.map((cellValues) => {
+      return cellValues.join(' | '); // replace '|' with the symbol you want to use
+    }).join('\n');
     await bot.sendMessage(chatId, message);
   } catch (error) {
     console.error(error);
     await bot.sendMessage(chatId, 'Sorry, there was an error sending the message');
   }
 };
+
 
 const getRowData = async (spreadsheetId, sheetName, rowNumber) => {
   const range = `${sheetName}!A${rowNumber}:I${rowNumber}`;
@@ -88,7 +93,13 @@ bot.on('message', (msg) => {
 
     // Wait for 5 seconds before sending the message with the button to the channel
     setTimeout(() => {
-      bot.sendMessage(chatId, 'Зробити замовлення через наш чат-бот:', { reply_markup: keyboard });
+      bot.sendMessage(chatId, 'Зробити замовлення через наш чат-бот:', { reply_markup: keyboard })
+      .then(sentMessage => {
+        sendToBaseMessageId(sentMessage.message_id);
+      })
+      .catch(error => {
+        console.error(`Error sending message: ${error}`);
+      });
     }, 5000);
   }
 });
