@@ -31,8 +31,8 @@ const sendToBase = async (phone, name, status) => {
     const range = `${sheetName}!O${rowNumber}`;
     const data = [[`${phone} ${name}`]];
     await writeSpreadsheetData(spreadsheetId, range, data);
-    console.log(`Using range ${range} for cell with reserve status`);
-    console.log(`Data sended ${phone} , ${name}`);
+    //console.log(`Using range ${range} for cell with reserve status`);
+    //console.log(`Data sended ${phone} , ${name}`);
   } else {
     console.log(`Status "${status}" not found in spreadsheet`);
   }
@@ -46,7 +46,21 @@ const sendToBaseStatusDone = async (phone, name, status) => {
     //const data = [[`${phone} ${name}`]];
     const data = [['done']];
     await writeSpreadsheetData(spreadsheetId, range, data);
-    console.log(`Using range ${range} for cell with reserve status`);
+    //console.log(`Using range ${range} for cell with reserve status`);
+  } else {
+    console.log(`Status "${status}" not found in spreadsheet`);
+  }
+};
+
+const sendToBaseStatusReserve = async (phone, name, status) => {
+  const rowNumber = await findStatusRaw('new');
+  const sheetName = 'post';
+  if (rowNumber) {
+    const range = `${sheetName}!N${rowNumber}`;
+    //const data = [[`${phone} ${name}`]];
+    const data = [['reserve']];
+    await writeSpreadsheetData(spreadsheetId, range, data);
+    //console.log(`Using range ${range} for cell with reserve status`);
   } else {
     console.log(`Status "${status}" not found in spreadsheet`);
   }
@@ -54,7 +68,8 @@ const sendToBaseStatusDone = async (phone, name, status) => {
 
 export {
   sendToBase,
-  sendToBaseStatusDone
+  sendToBaseStatusDone,
+  sendToBaseStatusReserve
 }
 
 // writeSpreadsheetData(spreadsheetId, range, data);

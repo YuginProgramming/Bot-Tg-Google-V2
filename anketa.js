@@ -1,7 +1,7 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
-import { sendToBase, sendToBaseStatusDone } from './writegoog.js'
-import { crawler } from './crawler.js'
+import { sendToBase, sendToBaseStatusDone, sendToBaseStatusReserve } from './writegoog.js'
+import { crawler, crawlerStatusNew } from './crawler.js'
 import { findStatusRaw } from "./getStatus.js";
 
 let customerPhone;
@@ -84,11 +84,15 @@ bot.on('message', async (msg) => {
   
   if (messageText === 'Зробити замовлення') {
     // check reserve
-    const reservTemp = await crawler(spreadsheetId, "post", "J");;
+    const reservTemp = await crawler(spreadsheetId, "post", "N");
+    //додаю перевірку на crawlerStatusNew
+    //const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
+    
     if (reservTemp === true) {
-
-    bot.sendMessage(chatId, phrases.contactRequest, {
-      reply_markup: {
+      //додаю окремим іфом ЧИ В ТОЙ САМИЙ ІФ запис статусу reserve
+      sendToBaseStatusReserve();
+      bot.sendMessage(chatId, phrases.contactRequest, {
+        reply_markup: {
         keyboard: keyboards.contactRequest,
         resize_keyboard: true,
       },
@@ -110,9 +114,16 @@ bot.on('message', async (msg) => {
         },
       });
   } else if(messageText === 'Так, Оформити замовлення') {
+    // delete last message in const channelId = '-1001783798562';
+    //await bot.editMessageReplyMarkup({}, opts);
+    //await bot.answerCallbackQuery(query.id, {'@api_gog_bot'});
+
     sendToBase(customerPhone, customerName);
     sendToBaseStatusDone();
     bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
+  
+  
+  
   } else if (messageText === 'Почати спочатку') {
     bot.sendMessage(chatId, '/start');
   } else if(messageText === `Ні, я введу номер вручну` || messageText === 'Ні, повторити введення') {

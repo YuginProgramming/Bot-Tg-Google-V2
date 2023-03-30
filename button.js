@@ -1,3 +1,16 @@
+
+//=======================
+const channelId = '-1001783798562';
+    const lastMessageId = /* Set this to the ID of the previous message */;
+    const opts = {
+      chat_id: channelId,
+      message_id: lastMessageId,
+      reply_markup: {}
+    };
+    await bot.editMessageReplyMarkup(opts);
+
+//=======================
+
 import bot from "./app.js";
 
 const channel = '-1001783798562';
@@ -48,3 +61,4 @@ bot.on('callback_query', async (query) => {
     // handle the error gracefully
   }
 });
+

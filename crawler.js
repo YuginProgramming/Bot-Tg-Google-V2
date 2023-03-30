@@ -48,9 +48,25 @@ const crawlerRaw = async (spreadsheetId, sheetName, triggerColumn) => {
   });
 };
 
+const crawlerStatusNew = async (spreadsheetId, sheetName, triggerColumn) => {
+  // Get array of trigger values in column
+  const triggerArray = await getArrayFromColumn(spreadsheetId, sheetName, triggerColumn);
+        
+  // Find row numbers where trigger value is резерв
+  const rowNumbers = triggerArray
+    .map((value, index) => value === "new" ? index + 1 : null)
+    .filter(value => value !== null);    
+    if (rowNumbers.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+};
+
 export {
   crawler,
   crawlerRaw,
   getArrayFromColumn,
-  getSpreadsheetData
+  getSpreadsheetData,
+  crawlerStatusNew
 }
