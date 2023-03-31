@@ -23,16 +23,7 @@ const getArrayFromColumn = async (spreadsheetId, sheetName, columnName) => {
     return [];
 };
 
-// NOT IN USE search value in specified cell
-const findCellData = async (status) => {
-    const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
-    const sheetName = "post";
-    const columnName = "M";
-    const rowNumber = 5;
-    const cellValue = await getCellValue(spreadsheetId, sheetName, columnName, rowNumber);
-    console.log(cellValue);
-    return cellValue;
-  };
+
 
 // find Status raw
 const findStatusRawCell = async (searchValue) => {

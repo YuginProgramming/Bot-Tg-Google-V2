@@ -63,10 +63,33 @@ const crawlerStatusNew = async (spreadsheetId, sheetName, triggerColumn) => {
     }
 };
 
+
+//  search value in specified cell
+
+const getCellValue = async (spreadsheetId, sheetName, columnName, rowNumber) => {
+  const range = `${sheetName}!${columnName}${rowNumber}`;
+  const data = await getSpreadsheetData(spreadsheetId, range);
+  if (data.values && data.values.length > 0) {
+    return data.values[0][0];
+  }
+  return "";
+};
+
+const googleFindMessageId = async (status) => {
+  const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
+  const sheetName = "post";
+  const columnName = "M";
+  const rowNumber = 2;
+  const cellValue = await getCellValue(spreadsheetId, sheetName, columnName, rowNumber);
+  console.log(`googleFindMessageId: ${cellValue}`);
+  return cellValue;
+};
+
 export {
   crawler,
   crawlerRaw,
   getArrayFromColumn,
   getSpreadsheetData,
-  crawlerStatusNew
+  crawlerStatusNew,
+  googleFindMessageId
 }

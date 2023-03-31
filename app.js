@@ -6,6 +6,14 @@ const token = process.env.TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 export default bot;
 
+const chatIdTest = '-1001938112685';
+
+import { deleteButton } from './button.js';
+const chatId = '-1001783798562';
+// const messageId = '378';
+// deleteButton(chatId, messageId);
+
+
 import { anketa, anketaListiner } from './anketa.js';
 anketa();
 anketaListiner();
@@ -30,8 +38,7 @@ const range = "post";
     //console.log(data);
   
 // ЭТО РАБОЧИЙ КОД ОТПРАВКИ ЦИФРЫ В ТЕЛЕГРАМ И ОТПРАВКИ СТРОКИ В ГРУППУ
-const chatId = '-1001783798562';
-const chatIdTest = '-1001938112685';
+
 
 bot.on('message', async (message) => {
   try {

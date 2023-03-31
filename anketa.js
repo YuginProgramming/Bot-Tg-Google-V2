@@ -1,8 +1,12 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
 import { sendToBase, sendToBaseStatusDone, sendToBaseStatusReserve } from './writegoog.js'
-import { crawler, crawlerStatusNew } from './crawler.js'
+import { crawler, crawlerStatusNew, googleFindMessageId } from './crawler.js'
 import { findStatusRaw } from "./getStatus.js";
+
+import { deleteButton } from './button.js';
+const chatId = '-1001783798562';
+const messageId = '378';
 
 let customerPhone;
 let customerName;
@@ -69,12 +73,14 @@ bot.on('message', async (msg) => {
   const messageText = msg.text;
   
   if (messageText === 'Зробити замовлення') {
+    
     // check reserve
     const reservTemp = await crawler(spreadsheetId, "post", "N");
-    
     const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
+    
     if (statusNew === true) {
       bot.sendMessage(chatId, 'є замовлення від іншого користувача');
+    
     } else if (reservTemp === true) {
       //додаю окремим іфом ЧИ В ТОЙ САМИЙ ІФ запис статусу reserve
       sendToBaseStatusReserve();
@@ -103,9 +109,11 @@ bot.on('message', async (msg) => {
       });
   } else if(messageText === 'Так, Оформити замовлення') {
     // delete last message in const channelId = '-1001783798562';
-    //await bot.editMessageReplyMarkup({}, opts);
-    //await bot.answerCallbackQuery(query.id, {'@api_gog_bot'});
-
+    
+    //=====================
+    //Функція що знаходить строку з номером у гуглі googleFindMessageId(); знаходиться у файлі deleteButton
+    //deleteButton Функція що видаляє кнопку по знайденому в гуглі номеру
+    deleteButton();
     sendToBase(customerPhone, customerName);
     sendToBaseStatusDone();
     bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
