@@ -13,7 +13,7 @@ const deleteButton = async () => {
     await bot.deleteMessage(channelId, messageId);
 
   } catch (err) {
-    console.error(err);
+    //console.error(err);
     // handle the error gracefully
   }
 };

@@ -73,7 +73,7 @@ bot.on('message', async (msg) => {
   const messageText = msg.text;
   
   if (messageText === 'Зробити замовлення') {
-    
+    await deleteButton();
     // check reserve
     const reservTemp = await crawler(spreadsheetId, "post", "N");
     const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
@@ -82,7 +82,6 @@ bot.on('message', async (msg) => {
       bot.sendMessage(chatId, 'є замовлення від іншого користувача');
     
     } else if (reservTemp === true) {
-      //додаю окремим іфом ЧИ В ТОЙ САМИЙ ІФ запис статусу reserve
       sendToBaseStatusReserve();
       bot.sendMessage(chatId, phrases.contactRequest, {
         reply_markup: {
@@ -95,7 +94,7 @@ bot.on('message', async (msg) => {
     bot.sendMessage(chatId, 'стоїть бронь');
   }
   
-  } else if (msg.contact) {
+  } else if (msg.contact) {  //тут іде по витяганню з контактів
     customerPhone = msg.contact.phone_number;
     customerName = msg.contact.first_name;
     //console.log(customerPhone)
@@ -108,20 +107,14 @@ bot.on('message', async (msg) => {
         },
       });
   } else if(messageText === 'Так, Оформити замовлення') {
-    // delete last message in const channelId = '-1001783798562';
-    
-    //=====================
-    //Функція що знаходить строку з номером у гуглі googleFindMessageId(); знаходиться у файлі deleteButton
-    //deleteButton Функція що видаляє кнопку по знайденому в гуглі номеру
-    deleteButton();
-    sendToBase(customerPhone, customerName);
-    sendToBaseStatusDone();
+    await deleteButton();
+    await sendToBase(customerPhone, customerName);
+    await sendToBaseStatusDone();
     bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
-  
-  
-  
+
   } else if (messageText === 'Почати спочатку') {
     bot.sendMessage(chatId, '/start');
+  //тут іде по самостійному введенню
   } else if(messageText === `Ні, я введу номер вручну` || messageText === 'Ні, повторити введення') {
     customerPhone = undefined;
     customerName = undefined;  
