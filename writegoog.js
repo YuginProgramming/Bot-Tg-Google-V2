@@ -66,11 +66,11 @@ const sendToBaseStatusReserve = async (phone, name, status) => {
   }
 };
 
-const sendToBaseMessageId = async (id) => {
-  const rowNumber = '1';
+const sendToBaseMessageId = async (id, rowNumber) => {
+  //const rowNumber = '1';
   const sheetName = 'post';
   if (rowNumber) {
-    const range = `${sheetName}!N${rowNumber}`;
+    const range = `${sheetName}!L${rowNumber}`;
     const data = [[id]];
     await writeSpreadsheetData(spreadsheetId, range, data);
     //console.log(`Using range ${range} for cell with reserve status`);

@@ -38,7 +38,7 @@ bot.on('message', async (message) => {
       };
 
       const sentMessage = await bot.sendMessage(chatId, message, { reply_markup: keyboard });
-      await sendToBaseMessageId(sentMessage.message_id);
+      await sendToBaseMessageId(sentMessage.message_id, rowNumber);
     } else {
       throw new Error('Row not found');
     }
