@@ -4,9 +4,7 @@ import { sendToBase, sendToBaseStatusDone, sendToBaseStatusReserve } from './wri
 import { crawler, crawlerStatusNew } from './crawler.js'
 import { findStatusRaw } from "./getStatus.js";
 
-import { deleteButton } from './button.js';
 const chatId = '-1001783798562';
-const messageId = '378';
 
 let customerPhone;
 let customerName;
@@ -73,7 +71,7 @@ bot.on('message', async (msg) => {
   const messageText = msg.text;
   
   if (messageText === 'Зробити замовлення') {
-    await deleteButton();
+    //await deleteButton();
     // check reserve
     const reservTemp = await crawler(spreadsheetId, "post", "N");
     const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N");
@@ -107,7 +105,7 @@ bot.on('message', async (msg) => {
         },
       });
   } else if(messageText === 'Так, Оформити замовлення') {
-    await deleteButton();
+    //await deleteButton();
     await sendToBase(customerPhone, customerName);
     await sendToBaseStatusDone();
     bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
