@@ -8,6 +8,7 @@ const getArrayFromColumn = async (spreadsheetId, sheetName, columnName) => {
     }
     return [];
 };
+
 const crawler = async (spreadsheetId, sheetName, triggerColumn) => {
   // Get array of trigger values in column
   const triggerArray = await getArrayFromColumn(spreadsheetId, sheetName, triggerColumn);
@@ -63,9 +64,7 @@ const crawlerStatusNew = async (spreadsheetId, sheetName, triggerColumn) => {
     }
 };
 
-
 //  search value in specified cell
-
 const getCellValue = async (spreadsheetId, sheetName, columnName, rowNumber) => {
   const range = `${sheetName}!${columnName}${rowNumber}`;
   const data = await getSpreadsheetData(spreadsheetId, range);
@@ -92,4 +91,4 @@ export {
   getSpreadsheetData,
   crawlerStatusNew,
   googleFindMessageId
-}
+};

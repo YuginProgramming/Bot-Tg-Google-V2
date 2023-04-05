@@ -1,7 +1,7 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
 import { sendToBase, sendToBaseStatusDone, sendToBaseStatusReserve } from './writegoog.js'
-import { crawler, crawlerStatusNew, googleFindMessageId } from './crawler.js'
+import { crawler, crawlerStatusNew } from './crawler.js'
 import { findStatusRaw } from "./getStatus.js";
 
 import { deleteButton } from './button.js';
