@@ -9,6 +9,8 @@ import {
   sendToRawStatusDone
 } from './writegoog.js'
 
+import { changeMessage, deleteButton } from "./editChannel.js"
+
 import { crawler, crawlerStatusNew } from './crawler.js'
 import { searchForNew } from './crawlerRaw.js'
 
@@ -82,6 +84,7 @@ bot.on('message', async (msg) => {
     const orderRaw = 5;
     const range = `post!L${orderRaw}:N${orderRaw}`;
     if (messageText === `#${orderRaw}`) {
+      await changeMessage();
       const statusNew = await searchForNew(spreadsheetId, range)
       const reservTemp = true;
       //await deleteButton();
@@ -120,6 +123,7 @@ bot.on('message', async (msg) => {
       // переписати функції запису даних згідно рядка а не колонки
       await sendToRawContact(customerPhone, customerName);
       await sendToRawStatusDone();
+      await changeMessage();
       bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
 
     } else if (messageText === 'Почати спочатку') {
