@@ -11,8 +11,8 @@ import { anketa, anketaListiner } from './anketa.js';
 anketa();
 anketaListiner();
 const chatIdTest = '-1001938112685'; // поки використовується як чат для логів
-const chatId = '-1001783798562';
-const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
+const chatId = '-1001783798562'; // ID каналу
+export const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
   
 //============ це код відправки рядка в канал
 //перевірка чи цифра і вичитка рядка цифри

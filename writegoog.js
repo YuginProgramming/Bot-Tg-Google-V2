@@ -24,6 +24,48 @@ export const writeSpreadsheetData = async (spreadsheetId, range, data) => {
   return response.data;
 };
 
+const sendToRawContact = async (phone, name, status) => {
+  const rowNumber = 5; //а буде щось на зразок: await findStatusRaw('reserve');
+  const sheetName = 'post';
+  if (rowNumber) {
+    const range = `${sheetName}!O${rowNumber}`;
+    const data = [[`${phone} ${name}`]];
+    await writeSpreadsheetData(spreadsheetId, range, data);
+    //console.log(`Using range ${range} for cell with reserve status`);
+    //console.log(`Data sended ${phone} , ${name}`);
+  } else {
+    console.log(`Status "${status}" not found in spreadsheet`);
+  }
+};
+
+const sendToRawStatusReserve = async (phone, name, status) => {
+  const rowNumber = 5; // await findStatusRaw('new');
+  const sheetName = 'post';
+  if (rowNumber) {
+    const range = `${sheetName}!N${rowNumber}`;
+    //const data = [[`${phone} ${name}`]];
+    const data = [['reserve']];
+    await writeSpreadsheetData(spreadsheetId, range, data);
+    //console.log(`Using range ${range} for cell with reserve status`);
+  } else {
+    console.log(`Status "${status}" not found in spreadsheet`);
+  }
+};
+
+const sendToRawStatusDone = async (phone, name, status) => {
+  const rowNumber = 5; //await findStatusRaw('reserve');
+  const sheetName = 'post';
+  if (rowNumber) {
+    const range = `${sheetName}!N${rowNumber}`;
+    //const data = [[`${phone} ${name}`]];
+    const data = [['done']];
+    await writeSpreadsheetData(spreadsheetId, range, data);
+    //console.log(`Using range ${range} for cell with reserve status`);
+  } else {
+    console.log(`Status "${status}" not found in spreadsheet`);
+  }
+};
+
 const sendToBase = async (phone, name, status) => {
   const rowNumber = await findStatusRaw('reserve');
   const sheetName = 'post';
@@ -84,7 +126,10 @@ export {
   sendToBase,
   sendToBaseStatusDone,
   sendToBaseStatusReserve,
-  sendToBaseMessageId
+  sendToBaseMessageId,
+  sendToRawContact,
+  sendToRawStatusReserve,
+  sendToRawStatusDone
 }
 
 // writeSpreadsheetData(spreadsheetId, range, data);
