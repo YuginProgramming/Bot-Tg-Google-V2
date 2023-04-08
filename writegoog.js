@@ -24,22 +24,21 @@ export const writeSpreadsheetData = async (spreadsheetId, range, data) => {
   return response.data;
 };
 
-const sendToRawContact = async (phone, name, status) => {
-  const rowNumber = 5; //а буде щось на зразок: await findStatusRaw('reserve');
+const sendToRawContact = async (phone, name, rawNumber) => {
   const sheetName = 'post';
-  if (rowNumber) {
-    const range = `${sheetName}!O${rowNumber}`;
+  if (rawNumber) {
+    const range = `${sheetName}!O${rawNumber}`;
     const data = [[`${phone} ${name}`]];
     await writeSpreadsheetData(spreadsheetId, range, data);
     //console.log(`Using range ${range} for cell with reserve status`);
     //console.log(`Data sended ${phone} , ${name}`);
   } else {
-    console.log(`Status "${status}" not found in spreadsheet`);
+    console.log(`Status "${name}" not found in spreadsheet`);
   }
 };
 
-const sendToRawStatusReserve = async (phone, name, status) => {
-  const rowNumber = 5; // await findStatusRaw('new');
+const sendToRawStatusReserve = async (rowNumber) => {
+  //const rowNumber = 5; // await findStatusRaw('new');
   const sheetName = 'post';
   if (rowNumber) {
     const range = `${sheetName}!N${rowNumber}`;
@@ -48,12 +47,12 @@ const sendToRawStatusReserve = async (phone, name, status) => {
     await writeSpreadsheetData(spreadsheetId, range, data);
     //console.log(`Using range ${range} for cell with reserve status`);
   } else {
-    console.log(`Status "${status}" not found in spreadsheet`);
+    console.log(`Status "${rowNumber}" not found in spreadsheet`);
   }
 };
 
-const sendToRawStatusDone = async (phone, name, status) => {
-  const rowNumber = 5; //await findStatusRaw('reserve');
+const sendToRawStatusDone = async (rowNumber) => {
+  //const rowNumber = 5; //await findStatusRaw('reserve');
   const sheetName = 'post';
   if (rowNumber) {
     const range = `${sheetName}!N${rowNumber}`;
@@ -62,7 +61,7 @@ const sendToRawStatusDone = async (phone, name, status) => {
     await writeSpreadsheetData(spreadsheetId, range, data);
     //console.log(`Using range ${range} for cell with reserve status`);
   } else {
-    console.log(`Status "${status}" not found in spreadsheet`);
+    console.log(`Status "${rowNumber}" not found in spreadsheet`);
   }
 };
 

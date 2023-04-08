@@ -8,6 +8,7 @@ import {
   sendToRawStatusReserve,
   sendToRawStatusDone
 } from './writegoog.js'
+import {sendNewRowsToTelegram} from "./checkNew.js"
 
 import { changeMessage, deleteButton } from "./editChannel.js"
 
@@ -75,15 +76,29 @@ const anketa = () => {
 
 const anketaListiner = async() => {
 
+//code working with buttons below lots
+
+let selectedOrderRaw;
+bot.on("callback_query", query => {
+  const callbackData = query.data;
+  
+  // Extract orderRaw from callbackData and store it in the global variable
+  selectedOrderRaw = callbackData.split("_")[1];
+  console.log(selectedOrderRaw);
+});
+
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const messageText = msg.text;
 
-  // тут функція що вичитує номер рядку (замовлення)
-  // if (messageText === 'Зробити замовлення') { // так було
-    const orderRaw = 5;
-    const range = `post!L${orderRaw}:N${orderRaw}`;
-    if (messageText === `#${orderRaw}`) {
+    if (messageText === 'check') {
+    await sendNewRowsToTelegram(spreadsheetId, 'post', 'N', chatId, bot);
+    }
+  
+    //const orderRaw = query.data;
+    
+    const range = `post!L${selectedOrderRaw}:N${selectedOrderRaw}`;
+    if (messageText === `#${selectedOrderRaw}`) {
       await changeMessage();
       const statusNew = await searchForNew(spreadsheetId, range)
       const reservTemp = true;
@@ -95,7 +110,7 @@ bot.on('message', async (msg) => {
         bot.sendMessage(chatId, 'є замовлення від іншого користувача');
     
       } else if (reservTemp === true) {
-        sendToRawStatusReserve();
+        sendToRawStatusReserve(selectedOrderRaw);
         bot.sendMessage(chatId, phrases.contactRequest, {
           reply_markup: {
           keyboard: keyboards.contactRequest,
@@ -121,8 +136,8 @@ bot.on('message', async (msg) => {
     } else if(messageText === 'Так, Оформити замовлення') {
       
       // переписати функції запису даних згідно рядка а не колонки
-      await sendToRawContact(customerPhone, customerName);
-      await sendToRawStatusDone();
+      await sendToRawContact(customerPhone, customerName, selectedOrderRaw);
+      await sendToRawStatusDone(selectedOrderRaw);
       await changeMessage();
       bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
 
