@@ -74,13 +74,13 @@ const getCellValue = async (spreadsheetId, sheetName, columnName, rowNumber) => 
   return "";
 };
 
-const googleFindMessageId = async (status) => {
+const googleFindMessageId = async (rowNumber) => {
   const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
   const sheetName = "post";
-  const columnName = "N";
-  const rowNumber = 1;
+  const columnName = "L";
+  //const rowNumber = 1;
   const cellValue = await getCellValue(spreadsheetId, sheetName, columnName, rowNumber);
-  console.log(`googleFindMessageId: ${cellValue}`);
+  //console.log(`googleFindMessageId: ${cellValue}`);
   return cellValue;
 };
 

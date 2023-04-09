@@ -9,7 +9,7 @@ import {sendNewRowsToTelegram} from "./checkNew.js"
 
 import { changeMessage, deleteButton } from "./editChannel.js"
 
-import { crawler, crawlerStatusNew } from './crawler.js'
+import { googleFindMessageId } from './crawler.js'
 import { searchForNew } from './crawlerRaw.js'
 
 const chatId = '-1001783798562';
@@ -126,7 +126,9 @@ bot.on('message', async (msg) => {
       // переписати функції запису даних згідно рядка а не колонки
       await sendToRawContact(customerPhone, customerName, selectedOrderRaw);
       await sendToRawStatusDone(selectedOrderRaw);
-      await changeMessage();
+
+      const idToDelete = await googleFindMessageId(selectedOrderRaw)
+      await changeMessage(idToDelete);
       bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
 
     } else if (messageText === 'Почати спочатку') {

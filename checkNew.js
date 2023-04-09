@@ -2,7 +2,6 @@ import { getSpreadsheetData } from "./filedata.js";
 import { getArrayFromColumn } from "./crawler.js";
 import bot from "./app.js";
 
-
 // Send new rows to Telegram
 const sendNewRowsToTelegram = async (spreadsheetId, sheetName, triggerColumn, chatId, bot) => {
     const rowTexts = [];
@@ -35,7 +34,7 @@ const sendNewRowsToTelegram = async (spreadsheetId, sheetName, triggerColumn, ch
             inline_keyboard: [
               [
                 {
-                  text: "Купити ділянку №",
+                  text: "Купити ділянку",
                   callback_data: `buy_${rowNumber}`
                 }
               ]
@@ -44,13 +43,11 @@ const sendNewRowsToTelegram = async (spreadsheetId, sheetName, triggerColumn, ch
         });
   
         // Log the callback data to the console
-        console.log(`Callback data for row ${rowNumber}: buy_${rowNumber}`);
+        //console.log(`Callback data for row ${rowNumber}: buy_${rowNumber}`);
       }
     });
   };
       
-  
-
 export {
     sendNewRowsToTelegram,
 }
