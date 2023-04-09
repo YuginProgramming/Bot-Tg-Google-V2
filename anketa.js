@@ -105,7 +105,7 @@ bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   const messageText = msg.text;
 
-    if (messageText === 'check') {
+    if (messageText === 'Зробити замовлення') {
     await sendNewRowsToTelegram(spreadsheetId, 'post', 'N', chatId, bot);
     }
  
