@@ -1,9 +1,6 @@
 import bot from "./app.js";
 import { writeSpreadsheetData } from "./writegoog.js";
 import { 
-  sendToBase,
-  sendToBaseStatusDone,
-  sendToBaseStatusReserve,
   sendToRawContact,
   sendToRawStatusReserve,
   sendToRawStatusDone
@@ -21,8 +18,6 @@ let customerPhone;
 let customerName;
 
 const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
-//const range = 'post!N5';
-//const data = [['0674600500 імя Yevgen']];
 const data = [];
 
 const phoneRegex = /^\d{10,12}$/;
@@ -79,33 +74,19 @@ const anketaListiner = async() => {
 //code working with buttons below lots
 
 let selectedOrderRaw;
-bot.on("callback_query", query => {
+bot.on("callback_query", async (query) => {
   const callbackData = query.data;
+  const chatId = query.message.chat.id;
   
   // Extract orderRaw from callbackData and store it in the global variable
   selectedOrderRaw = callbackData.split("_")[1];
-  console.log(selectedOrderRaw);
-});
+  //console.log(selectedOrderRaw);
 
-bot.on('message', async (msg) => {
-  const chatId = msg.chat.id;
-  const messageText = msg.text;
-
-    if (messageText === 'check') {
-    await sendNewRowsToTelegram(spreadsheetId, 'post', 'N', chatId, bot);
-    }
-  
-    //const orderRaw = query.data;
-    
-    const range = `post!L${selectedOrderRaw}:N${selectedOrderRaw}`;
-    if (messageText === `#${selectedOrderRaw}`) {
-      await changeMessage();
+  const range = `post!L${selectedOrderRaw}:N${selectedOrderRaw}`;
+  //await changeMessage(selectedOrderRaw);
       const statusNew = await searchForNew(spreadsheetId, range)
       const reservTemp = true;
-      //await deleteButton();
-      // check reserve
-      //const reservTemp = await crawler(spreadsheetId, "post", "N"); // замість "N" ставлю рядок, міняю функцію на пошук не по стовпчику а по рядку
-      //const statusNew = await crawlerStatusNew(spreadsheetId, "post", "N"); // замість "N" ставлю рядок, міняю функцію на пошук не по стовпчику а по рядку
+      
       if (statusNew === false) {
         bot.sendMessage(chatId, 'є замовлення від іншого користувача');
     
@@ -116,12 +97,19 @@ bot.on('message', async (msg) => {
           keyboard: keyboards.contactRequest,
           resize_keyboard: true,
           },
-        });
-      } else {
-        bot.sendMessage(chatId, 'стоїть бронь');
-      }
-  
-    } else if (msg.contact) {  //тут іде по витяганню з контактів
+})
+}
+})
+
+bot.on('message', async (msg) => {
+  const chatId = msg.chat.id;
+  const messageText = msg.text;
+
+    if (messageText === 'check') {
+    await sendNewRowsToTelegram(spreadsheetId, 'post', 'N', chatId, bot);
+    }
+ 
+    else if (msg.contact) {  //тут іде по витяганню з контактів
       customerPhone = msg.contact.phone_number;
       customerName = msg.contact.first_name;
       //console.log(customerPhone)
