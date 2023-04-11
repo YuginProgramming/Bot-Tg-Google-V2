@@ -44,12 +44,12 @@ bot.on('message', async (message) => {
     }
   } catch (error) {
     if (error.message === 'Invalid row number') {
-      await bot.sendMessage(chatIdTest, 'Sorry, please enter a valid row number');
+      //await bot.sendMessage(chatIdTest, 'Sorry, please enter a valid row number');
     } else if (error.message === 'Row not found') {
-      await bot.sendMessage(chatIdTest, 'Sorry, the specified row was not found');
+      //await bot.sendMessage(chatIdTest, 'Sorry, the specified row was not found');
     } else {
       console.error(error);
-      await bot.sendMessage(chatIdTest, 'Sorry, there was an error processing your request');
+      //await bot.sendMessage(chatIdTest, 'Sorry, there was an error processing your request');
     }
   }
 });

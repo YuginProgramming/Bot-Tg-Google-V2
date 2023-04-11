@@ -17,11 +17,11 @@ const deleteButton = async () => {
 };
 
 // Працює хай живе
-const changeMessage = async (messageId) => {
+const changeMessage = async (messageId, message) => {
   try {
     // Додати інформацію про колонку, номер рядка передається в анкеті в аргумент
     //const messageId = 527;
-    const newText = "Ділянка з цього повідомлення була продана";
+    const newText = "🔴🔴🔴 Продано: " + message;
     await bot.editMessageText(newText, {chat_id: channelId, message_id: messageId});
 
   } catch (err) {

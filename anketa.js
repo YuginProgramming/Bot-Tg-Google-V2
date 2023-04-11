@@ -5,10 +5,11 @@ import {
   sendToRawStatusReserve,
   sendToRawStatusDone
 } from './writegoog.js'
-import {sendNewRowsToTelegram} from "./checkNew.js"
-import { changeMessage } from "./editChannel.js"
-import { googleFindMessageId } from './crawler.js'
-import { searchForNew } from './crawlerRaw.js'
+import {sendNewRowsToTelegram} from "./checkNew.js";
+import { changeMessage } from "./editChannel.js";
+import { googleFindMessageId } from './crawler.js';
+import { searchForNew } from './crawlerRaw.js';
+import { getSpreadsheetData } from "./filedata.js";
 
 const chatId = '-1001783798562';
 
@@ -125,8 +126,18 @@ bot.on('message', async (msg) => {
       await sendToRawContact(customerPhone, customerName, selectedOrderRaw);
       await sendToRawStatusDone(selectedOrderRaw);
 
+      //====================
+      const range = `post!A${selectedOrderRaw}:I${selectedOrderRaw}`;
+      const data = await getSpreadsheetData(spreadsheetId, range);
+
+      if (data.values && data.values.length > 0) {
+      const message = data.values[0].join(' | ');
       const idToDelete = await googleFindMessageId(selectedOrderRaw)
-      await changeMessage(idToDelete);
+      await changeMessage(idToDelete, message);
+      }
+      //=====================
+
+      
       bot.sendMessage(chatId, `Замовлення успішно оформлено. Дякую ${customerName}`);
 
     } else if (messageText === 'Почати спочатку') {
