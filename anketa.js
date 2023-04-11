@@ -6,9 +6,7 @@ import {
   sendToRawStatusDone
 } from './writegoog.js'
 import {sendNewRowsToTelegram} from "./checkNew.js"
-
-import { changeMessage, deleteButton } from "./editChannel.js"
-
+import { changeMessage } from "./editChannel.js"
 import { googleFindMessageId } from './crawler.js'
 import { searchForNew } from './crawlerRaw.js'
 

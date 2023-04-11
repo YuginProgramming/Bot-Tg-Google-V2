@@ -78,7 +78,6 @@ const googleFindMessageId = async (rowNumber) => {
   const spreadsheetId = "1ORjtAykJySO0pzbmXO7LX9DAog5GqBZ_2NYh_89SRKA";
   const sheetName = "post";
   const columnName = "L";
-  //const rowNumber = 1;
   const cellValue = await getCellValue(spreadsheetId, sheetName, columnName, rowNumber);
   //console.log(`googleFindMessageId: ${cellValue}`);
   return cellValue;
